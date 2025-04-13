@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+     output: 'export', // Habilita exportación estática
+
     images: {
+       // Habilita exportación estática
+       
+          unoptimized: true, // Necesario para GitHub Pages
+        
       // Dominios permitidos para imágenes remotas
       domains: [
         'images.unsplash.com',     // Unsplash
