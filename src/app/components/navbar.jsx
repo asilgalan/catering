@@ -115,16 +115,7 @@ export default function Navbar() {
       {/* Hero Section (ejemplo de integración) */}
       <section className="relative h-screen bg-gray-900 flex items-center justify-center">
         {/* Video o imagen de fondo */}
-        <div className="absolute inset-0 overflow-hidden">
-          <video 
-            autoPlay 
-            muted 
-            loop 
-            className="w-full h-full object-cover opacity-70"
-          >
-            <source src="/food-video.mp4" type="video/mp4" />
-          </video>
-        </div>
+      
         
         {/* Contenido del hero */}
         <div className="relative z-10 text-center px-4">
