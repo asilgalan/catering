@@ -4,8 +4,19 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState,useEffect } from 'react';
 export default function GallerySection() {
-  
+    const [isMobile, setIsMobile] = useState(false);
+    useEffect(() => {
+        const checkMobile = () => {
+          setIsMobile(window.innerWidth < 768);
+        };
+        
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        
+        return () => window.removeEventListener('resize', checkMobile);
+      }, []);
   const galleryItems = [
     {
       id: 1,
@@ -46,7 +57,7 @@ export default function GallerySection() {
   ];
 
   return (
-    <section id="galeria" className="py-20 bg-gray-50">
+    <section id="galeria" className="py-12 md:py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Encabezado */}
         <motion.div
@@ -54,18 +65,18 @@ export default function GallerySection() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10 md:mb-16"
         >
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <h2 className="text-2xl md:text-4xl font-bold text-gray-900 mb-3 md:mb-4">
             Nuestra <span className="text-amber-500">Galería</span>
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Descubre momentos capturados de nuestros eventos y creaciones culinarias
+          <p className="text-base md:text-lg text-gray-600 max-w-2xl mx-auto">
+            Bodas gourmet, eventos corporativos y experiencias culinarias
           </p>
         </motion.div>
 
-        {/* Galería */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Galería adaptativa */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {galleryItems.map((item, index) => (
             <motion.div
               key={item.id}
@@ -73,22 +84,38 @@ export default function GallerySection() {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
-              whileHover={{ scale: 1.03 }}
-              className="relative group overflow-hidden rounded-xl shadow-lg"
+              className="relative group"
             >
-              <Image
-                src={item.url}
-                alt={item.alt}
-                width={600}
-                height={400}
-                className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+              {/* Contenedor de la imagen */}
+              <div className={`overflow-hidden rounded-xl shadow-lg ${item.featured ? 'ring-2 ring-amber-400' : ''}`}>
+                <Image
+                  src={item.url}
+                  alt={item.alt}
+                  width={600}
+                  height={400}
+                  className={`w-full h-48 sm:h-64 object-cover transition-transform duration-500 ${!isMobile && 'group-hover:scale-110'}`}
+                  priority={item.featured}
+                />
+              </div>
+
+              {/* Overlay - Comportamiento diferente en móvil/desktop */}
+              <div className={`
+                absolute inset-0 flex items-end p-4 md:p-6
+                ${isMobile 
+                  ? 'bg-gradient-to-t from-black/60 to-transparent' 
+                  : 'bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300'
+                }
+              `}>
                 <div>
-                  <span className="inline-block px-3 py-1 bg-amber-500 text-white text-sm font-medium rounded-full mb-2">
+                  <span className={`
+                    inline-block px-2 py-1 text-xs md:text-sm font-medium rounded-full mb-1 md:mb-2 bg-amber-500 text-white
+                    ${item.featured}
+                  `}>
                     {item.category}
                   </span>
-                  <h3 className="text-xl font-semibold text-white">{item.alt}</h3>
+                  <h3 className={`text-sm md:text-xl font-semibold ${isMobile ? 'text-white' : 'text-white'}`}>
+                    {item.alt}
+                  </h3>
                 </div>
               </div>
             </motion.div>
@@ -101,15 +128,15 @@ export default function GallerySection() {
           whileInView={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
           viewport={{ once: true }}
-          className="text-center mt-16"
+          className="text-center mt-12 md:mt-16"
         >
-          <Link href="#contacto">
+          <Link href="#contacto" className="inline-block">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-full font-medium shadow-lg hover:shadow-amber-200 transition-all"
+              className="px-6 py-2 md:px-8 md:py-3 bg-gradient-to-r from-amber-500 to-amber-600 text-white rounded-full text-sm md:text-base font-medium shadow-lg hover:shadow-amber-200 transition-all"
             >
-              Ver Más Trabajos
+              Ver Bodas Gourmet
             </motion.button>
           </Link>
         </motion.div>

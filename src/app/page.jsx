@@ -1,3 +1,4 @@
+import ContactForm from "./catering/contacto";
 import GallerySection from "./catering/gallerySection";
 import ServicesSection from "./catering/servicesSection";
 import Footer from "./components/footer";
@@ -12,6 +13,7 @@ export default function Home() {
       <Navbar></Navbar>
     <GallerySection></GallerySection>  
       <ServicesSection/>
+      <ContactForm></ContactForm>
       <Footer></Footer>
     </>
   );

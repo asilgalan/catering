@@ -23,6 +23,7 @@ export default function Navbar() {
       { name: 'Galería', href: '#galeria' },
       { name: 'Servicios', href: '#servicios' },
       { name: 'Contacto', href: '#contacto' },
+      
     ];
   
     return (
